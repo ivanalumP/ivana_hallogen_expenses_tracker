@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/recommended_cubit.dart';
 import '../theme/theme_constants.dart';
-import '../../core/helpers/category_helpers.dart';
+
 import '../../data/models/expense_category.dart';
 import '../../dependencyInjection/service_locator.dart';
 import '../../presentation/widgets/expense_category_item.dart';

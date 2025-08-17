@@ -6,6 +6,7 @@ import '../blocs/add_expense_category_cubit.dart';
 import '../blocs/add_expense_form_cubit.dart';
 import '../blocs/expense_cubit.dart';
 import '../blocs/budget_cubit.dart';
+import '../blocs/recommended_cubit.dart';
 import '../theme/theme_constants.dart';
 import '../../dependencyInjection/service_locator.dart';
 import '../../core/router/app_router.dart';
@@ -25,12 +26,6 @@ class AddExpensesScreen extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => getIt<AddExpenseFormCubit>(),
-        ),
-        BlocProvider(
-          create: (context) => getIt<ExpenseCubit>(),
-        ),
-        BlocProvider(
-          create: (context) => getIt<BudgetCubit>(),
         ),
       ],
       child: const _AddExpensesScreenContent(),
@@ -120,6 +115,13 @@ class _AddExpensesScreenContentState extends State<_AddExpensesScreenContent> {
       if (!existingCategories.contains(formCubit.selectedCategory!)) {
         existingCategories.add(formCubit.selectedCategory!);
         storageService.saveCategories(existingCategories);
+
+        // Refresh category cubits to show the new category
+        final categoryCubit = getIt<AddExpenseCategoryCubit>();
+        categoryCubit.refreshLocalCategories();
+
+        final recommendedCubit = getIt<RecommendedCubit>();
+        recommendedCubit.refreshLocalCategories();
       }
 
       // Reset the form

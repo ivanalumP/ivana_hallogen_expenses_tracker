@@ -116,4 +116,16 @@ class RecommendedCubit extends Cubit<RecommendedState> {
     }
     return [];
   }
+
+  /// Refresh local categories from storage
+  void refreshLocalCategories() {
+    final currentState = state;
+    if (currentState is RecommendedLoaded) {
+      final localCategories = _storageService.getCategories();
+      emit(RecommendedLoaded(
+        expenseCategories: currentState.expenseCategories,
+        localCategories: localCategories,
+      ));
+    }
+  }
 }

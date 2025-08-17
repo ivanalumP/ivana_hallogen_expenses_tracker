@@ -5,9 +5,8 @@ import 'recommended_tab.dart';
 import '../../dependencyInjection/service_locator.dart';
 import '../theme/theme_constants.dart';
 import '../blocs/navigation_cubit.dart';
-
 import '../blocs/expense_cubit.dart';
-import '../blocs/recommended_cubit.dart';
+import '../blocs/budget_cubit.dart';
 import 'main_tab.dart';
 import 'records_tab.dart';
 
@@ -17,8 +16,18 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<NavigationCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<NavigationCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<ExpenseCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<BudgetCubit>(),
+        ),
+      ],
       child: const _MainScreenContent(),
     );
   }

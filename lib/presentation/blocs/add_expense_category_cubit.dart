@@ -52,29 +52,14 @@ class AddExpenseCategoryCubit extends Cubit<AddExpenseCategoryState> {
 
   /// Fetch expense categories from API and save to local storage
   Future<void> fetchExpenseCategories() async {
-    // Check if cubit is closed before proceeding
-    if (isClosed) {
-      return;
-    }
-
     emit(const AddExpenseCategoryLoading());
 
     try {
       final categories = await _repository.getExpenseCategories();
 
-      // Check again if cubit is closed after async operation
-      if (isClosed) {
-        return;
-      }
-
       // Save categories to Hive storage
       final categoryNames = categories.map((cat) => cat.name).toList();
       await _storageService.saveCategories(categoryNames);
-
-      // Check again if cubit is closed after storage operation
-      if (isClosed) {
-        return;
-      }
 
       // Get local categories for comparison
       final localCategories = _storageService.getCategories();
@@ -84,10 +69,6 @@ class AddExpenseCategoryCubit extends Cubit<AddExpenseCategoryState> {
         localCategories: localCategories,
       ));
     } catch (e) {
-      // Check if cubit is closed before emitting error
-      if (isClosed) {
-        return;
-      }
       emit(AddExpenseCategoryError('Failed to load categories: $e'));
     }
   }
@@ -124,5 +105,17 @@ class AddExpenseCategoryCubit extends Cubit<AddExpenseCategoryState> {
       }
     }
     return null;
+  }
+
+  /// Refresh local categories from storage
+  void refreshLocalCategories() {
+    final currentState = state;
+    if (currentState is AddExpenseCategoryLoaded) {
+      final localCategories = _storageService.getCategories();
+      emit(AddExpenseCategoryLoaded(
+        expenseCategories: currentState.expenseCategories,
+        localCategories: localCategories,
+      ));
+    }
   }
 }

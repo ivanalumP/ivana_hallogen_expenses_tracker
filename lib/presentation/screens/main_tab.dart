@@ -14,17 +14,7 @@ class MainTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => getIt<BudgetCubit>(),
-        ),
-        BlocProvider(
-          create: (context) => getIt<ExpenseCubit>(),
-        ),
-      ],
-      child: const _MainTabContent(),
-    );
+    return const _MainTabContent();
   }
 }
 

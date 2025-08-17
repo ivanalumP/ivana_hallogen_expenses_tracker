@@ -42,15 +42,15 @@ Future<void> setupServiceLocator() async {
       () => ExpenseCategoryRepositoryImpl(getIt<Dio>()));
 
   // Register Cubits
-  getIt.registerFactory<ExpenseCategoryCubit>(() => ExpenseCategoryCubit(
+  getIt.registerLazySingleton<ExpenseCategoryCubit>(() => ExpenseCategoryCubit(
       getIt<ExpenseCategoryRepository>(), getIt<HiveStorageService>()));
   getIt.registerFactory<NavigationCubit>(() => NavigationCubit());
-  getIt.registerFactory<BudgetCubit>(
+  getIt.registerLazySingleton<BudgetCubit>(
       () => BudgetCubit(getIt<HiveStorageService>()));
-  getIt.registerFactory<ExpenseCubit>(
+  getIt.registerLazySingleton<ExpenseCubit>(
       () => ExpenseCubit(getIt<HiveStorageService>()));
   getIt.registerFactory<AddExpenseFormCubit>(() => AddExpenseFormCubit());
-  getIt.registerFactory<RecommendedCubit>(() => RecommendedCubit(
+  getIt.registerLazySingleton<RecommendedCubit>(() => RecommendedCubit(
       getIt<ExpenseCategoryRepository>(), getIt<HiveStorageService>()));
   getIt.registerFactory<AddExpenseCategoryCubit>(() => AddExpenseCategoryCubit(
       getIt<ExpenseCategoryRepository>(), getIt<HiveStorageService>()));

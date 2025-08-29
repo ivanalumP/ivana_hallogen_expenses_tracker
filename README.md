@@ -1,4 +1,4 @@
-# Hallogen Expenses Tracker
+# Flutter Project
 
 A Flutter application for tracking personal expenses with a  Clean Architecture principles, 
 BLoC pattern for state management, and dependency injection.
